@@ -7,13 +7,6 @@ def iter_alg(n):
         a, b = b, a+b
     return b
 
-# def recurs_alg(n, i=1, a=0, b=1):
-#     if n == 1:
-#         return 0
-#     if i == n:
-#         return b
-#     return recurs_alg(n, i+1, b, a+b)
-
 def fibonacci_recurs(n):
     if n <= 1:
         return n
