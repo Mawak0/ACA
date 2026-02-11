@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import time
 import random
 
+
 def bubble_sort(array):
     iter_counter = 0
     while True:
@@ -13,7 +14,6 @@ def bubble_sort(array):
         if not edit:
             return array
         iter_counter += 1
-
 
 
 def gnome_sort(array):
@@ -29,6 +29,7 @@ def gnome_sort(array):
                 i += 1
             else:
                 i -= 1
+
 
 def insertion_sort(nums):
     for i in range(1, len(nums)):
