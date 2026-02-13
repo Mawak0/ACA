@@ -112,12 +112,60 @@ plt.xlabel('Размер входных данных')
 plt.ylabel('Время в сек.')
 plt.show()
 
-# сгенерировать все возможные комбинации перестановок элементов
-print(narayana_permutations([1,2,3]))
+# сгенерировать все возможные комбинации перестановок элементов (с повторениями)
+print(set(tuple(p) for p in narayana_permutations([1,1,2])))
 
 # задано n-элементов. Необходимо перебрать все возможные варианты выборки из этих элементов
 def samples(array, n):
     per = trotter_permutations(array)
-    return set([p[0:n] for p in per])
+    return set(tuple([tuple(p[0:n]) for p in per]))
 
 print(samples(["стол", "стул", "шкаф"], 2))
+print(samples(["стол", "стул", "шкаф"], 3))
+
+
+
+# Задача 4: какие наименования (и в каком количестве) можно купить
+
+
+def maximize_item_types(budget, shopping_list, price_list):
+    bought = {}
+    rem = budget
+    for name, qty in sorted(shopping_list.items(), key=lambda it: price_list[it[0]]):
+        total_cost = price_list[name] * qty
+        if rem - total_cost >= 0:
+            bought[name] = qty
+            rem -= total_cost
+        else:
+            if rem - price_list[name] >= 0:
+                bought[name] = 1
+                rem -= price_list[name]
+    for name, qty in sorted(shopping_list.items(), key=lambda it: price_list[it[0]]):
+        for q in range(1, qty):
+            total_cost = price_list[name] * q
+            if rem - total_cost < 0:
+                bought[name] = bought[name] + q-1
+                rem -= total_cost - price_list[name]
+                return bought, rem
+
+budget = 400.0
+
+shopping_list = {
+    "ручка": 10,
+    "тетрадь": 5,
+    "линейка": 2,
+    "маркер": 3,
+    " карандаш": 6
+}
+
+price_list = {
+    "ручка": 15.0,
+    "тетрадь": 40.0,
+    "линейка": 12.0,
+    "маркер": 30.0,
+    " карандаш": 5.0
+}
+
+one_bought, rem_one = maximize_item_types(budget, shopping_list, price_list)
+print("Куплено:", one_bought)
+print("Остаток бюджета:", rem_one)
