@@ -7,7 +7,7 @@ import string
 
 def naive_alg(string, substr):
     ind = []
-    for i in range(0, len(string)):
+    for i in range(0, len(string)-len(substr)):
         good = True
         for j in range(0, len(substr)):
             if string[i+j] != substr[j]:
@@ -135,10 +135,33 @@ for n in run_range:
     rabin_times.append(get_time_of_exec(rabin_karp, [st, substr])[1])
     kmp_times.append(get_time_of_exec(kmp, [st, substr])[1])
 
-plt.plot(naive_times, label="Наивный алгоритм")
-plt.plot(boyer_times, label="Алгоритм Бойера-Мура")
-plt.plot(rabin_times, label="Алгоритм Рабина-Карпа")
-plt.plot(kmp_times, label="Алгоритм Кнута-Морриса-Пратта")
+plt.plot(run_range, naive_times, label="Наивный алгоритм")
+plt.plot(run_range, boyer_times, label="Алгоритм Бойера-Мура")
+plt.plot(run_range, rabin_times, label="Алгоритм Рабина-Карпа")
+plt.plot(run_range, kmp_times, label="Алгоритм Кнута-Морриса-Пратта")
+plt.legend(loc='upper left', fontsize='medium')
+plt.xlabel('Размер строки')
+plt.ylabel('Время в сек.')
+plt.show()
+
+
+run_range = range(100, 1000, 100)
+naive_times = []
+boyer_times = []
+rabin_times = []
+kmp_times = []
+
+for n in run_range:
+    st, substr = generate_string_with_substring(n, n//3, 1)
+    naive_times.append(get_time_of_exec(naive_alg, [st, substr])[1])
+    boyer_times.append(get_time_of_exec(boyer_moore, [st, substr])[1])
+    rabin_times.append(get_time_of_exec(rabin_karp, [st, substr])[1])
+    kmp_times.append(get_time_of_exec(kmp, [st, substr])[1])
+
+plt.plot(run_range, naive_times, label="Наивный алгоритм")
+plt.plot(run_range, boyer_times, label="Алгоритм Бойера-Мура")
+plt.plot(run_range, rabin_times, label="Алгоритм Рабина-Карпа")
+plt.plot(run_range, kmp_times, label="Алгоритм Кнута-Морриса-Пратта")
 plt.legend(loc='upper left', fontsize='medium')
 plt.xlabel('Размер строки')
 plt.ylabel('Время в сек.')
